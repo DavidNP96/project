@@ -2,7 +2,7 @@ import csv
 import json
 import pandas as pd
 
-with open("data.csv", "r") as csv_file:
+with open("../data/data.csv", "r") as csv_file:
     file = csv.DictReader(csv_file)
 
     json_dict = {}
@@ -11,13 +11,19 @@ with open("data.csv", "r") as csv_file:
             pass
         else:
             json_dict[row["Year Code"]] = {}
-        for json_dict.keys():
-            if json_dict.keys() in 
         if row["Country"] in json_dict[row["Year"]]:
             pass
         else:
-            json_dict[row["Year Code"]] = row["Country"]
-    print(json_dict)
+            json_dict[row["Year Code"]][row["Country"]] = {}
+        if row["Item"] in json_dict[row["Year Code"]][row["Country"]]:
+            pass
+        else:
+            json_dict[row["Year Code"]][row["Country"]][row["Item"]] = {}
+            json_dict[row["Year Code"]][row["Country"]][row["Item"]] = row["Value"]
+
+with open("data.json", "w") as outfile:
+    json.dump(json_dict, outfile)
+
 
 
 
