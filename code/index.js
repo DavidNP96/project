@@ -1,3 +1,5 @@
+var datamaps
+var dropyear
 window.onload = function() {
     var countries = "https://raw.githubusercontent.com/DavidNP96/project/master/code/countries.json"
     var data = "https://raw.githubusercontent.com/DavidNP96/project/master/data/data.json"
@@ -7,6 +9,7 @@ window.onload = function() {
   Promise.all(requests).then(function(response) {
     var countries = response[0]
     var data = response[1]
+    datamap = data
     // Set tooltips
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0},
@@ -17,12 +20,15 @@ window.onload = function() {
                        .scale(130)
                       .translate( [width / 2, height / 1.5]);
     var path = d3.geoPath().projection(projection);
-    var svg = d3.select("#worldmap")
-    country = "Netherlands"
+
+
     // Time
      var dataTime = d3.range(0, 11).map(function(d) {
        return new Date(2003 + d, 10, 3);
      });
+     var year = 2013
+    dropyear = year
+     map(countries, data, year, path);
 
      var sliderTime = d3
        .sliderBottom()
@@ -49,16 +55,13 @@ window.onload = function() {
 
      gTime.call(sliderTime);
 
-     d3.select('p#value-time').text(d3.timeFormat('%Y')(sliderTime.value()));
-
-    map(countries, data, path);
-    createPie(data, year, country);
 
 
   }).catch(function(e){
       throw(e);
   });
 };
+
 function map(countries, data, year, path) {
 
 var color = d3.scaleThreshold()
@@ -129,10 +132,11 @@ keys.forEach((key, i) => dataset[key] = values[i]);
           }
           if (d3.select(".line").empty()) {
             createLine(data, country);
-            createPie(data, year, country)
+            createPie(data, year, country);
           }
           else {
             updateLine(data, country);
+            updateDonut(data, year, country);
           }
         });
 
@@ -146,7 +150,7 @@ function createPie(data, year, country) {
 
     // selects right data
     data = data[year][country]
-
+    console.log(data);
     // define tooltip
     var div = d3.select("body").append("div")
         .attr("class", "tooltip")
@@ -186,7 +190,7 @@ function createPie(data, year, country) {
               .style("opacity", .9)
 
           div	.html("country: " + country + "<br/>" + "year: "+ year + "<br/>"  + "consumption: " + d.value)
-              .style("left", (d3.event.pageX) + "px")
+              .style("left", (d3.event.pageX +20) + "px")
               .style("top", (d3.event.pageY - 20) + "px");
          })
          .on("mouseout", function(d) {
@@ -195,19 +199,6 @@ function createPie(data, year, country) {
              .style("opacity", 0);
          });
 
-
-    var content = svg.select("g")
-                    .selectAll("text")
-                    .data(angles);
-
-    // write values in eacht section of piechart
-    content.enter().append("text")
-          .classed("inside", true)
-          .each(function(d){
-                var center = segments.centroid(d);
-                d3.select(this).attr("x",center[0]).attr("y", center[1])
-                .text(Math.round(d.value))
-            })
 
     // create legend
     var legends = svg.append("g")
@@ -225,12 +216,14 @@ function createPie(data, year, country) {
     legend.append("rect")
           .attr("width", 20)
           .attr("height", 20)
-          .attr("fill", "red");
+          .attr("fill", function(d){
+    return colors(d.value);
+    })
 
     // append text to leend
     legend.append("text")
           .classed("label", true)
-          // .text(function(d, i){return animals[i]})
+          // .text(function(d, i){return Object.})
           .attr("x", 20)
           .attr("y", 12)
 
@@ -243,15 +236,58 @@ function createPie(data, year, country) {
       .text("meatconsumption of country per animal")
 }
 
-// function updateDonut(data, year country){
-//   var colors = d3.scaleOrdinal(d3.schemeSet1);
-//
-//   // selects right data
-//   data = data[year][country]
-//
-//   svg = d3.select("#donutchart").transition()
-// }
+function updateDonut(data, year, country) {
 
+  var colors = d3.scaleOrdinal(d3.schemeSet1);
+
+  // selects right data
+  data = data[year][country];
+  svg = d3.select("#donutchart");
+
+
+  values = Object.values(data);
+  animals = Object.keys(data)
+
+  var angles = d3.pie().sort(null)(values);
+
+  // create each segment of piechart
+  var segments = d3.arc()
+                   .innerRadius(100)
+                   .outerRadius(200)
+                   .padAngle(.05)
+                   .padRadius(50);
+
+  var sections = svg.selectAll("path").data(angles)
+
+
+  //  give color to eacht section of piechart
+  sections.enter()
+          .append("path")
+          .attr("d", segments)
+          .attr("fill", function(d){
+    return colors(d.value)
+    })
+
+    sections.exit().remove()
+
+    sections.transition().duration(500)
+    .attr("d", segments)
+    .attr("fill", function(d){
+    return colors(d.value)
+    })
+
+}
+
+function dropdown(country){
+  if (d3.select(".line").empty()) {
+    createLine(datamap, country);
+    createPie(datamap, dropyear, country);
+  }
+  else {
+    updateLine(datamap, country);
+    updateDonut(datamap, dropyear, country);
+  }
+}
 function createLine(data, country) {
   var svg = d3.selectAll("#linegraph")
   var tip = d3.tip()
@@ -359,6 +395,7 @@ function createLine(data, country) {
         .duration(500)
         .style("opacity", 0);
     })
+    .on("onclick")
 }
 
 function updateLine(data, country) {
