@@ -79,6 +79,10 @@ stroke-linejoin: round;
  .details{
    color:white;
  }
+
+ body{
+   background-color: #ffffb3;
+ }
  /* .dropdown{
    left: 70% !important;
    right: auto !important;

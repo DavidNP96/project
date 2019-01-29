@@ -23,13 +23,12 @@ dropdown or slider to scroll through years and render new worldmap
 ## linechart
 by clicking on counntry the value country will be returned with which is linked to data in the json file. with this i'll be able to render a linechart which shows the trend in animal consumption.
 
-## piechart 
+## piechart
 
-with the same return value i'll render a pichart which will show the specified animals that are being eaten by percentage.
+with the same return value i'll render a piechart which will show the specified animals that are being eaten by percentage.
 
 ## schets
 ![schets](https://user-images.githubusercontent.com/44022245/50835750-d5b4f700-1357-11e9-8a50-e26aa1988447.png)
 
 ## plugins
 d3 tooltip
-

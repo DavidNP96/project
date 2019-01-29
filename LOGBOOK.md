@@ -42,3 +42,10 @@ gave countries color according to value of the data.
 #25-10-2019:
 made dropdown button. perfected the tooltip on the donutchart.
 fixed some bugs with the linechart update and made donutchart updatefunction.
+
+#28-10-2019:
+today I fixed a bug with my tooltip and made my appear in a box. Also made a
+for my worldmap and piechart. Did some styling with changing the colors of my
+worldmap and my donutchart. ALso made an error handler for my dropdown since
+there are countries that do not carry any data. The slider now also updates the
+donutchart.
