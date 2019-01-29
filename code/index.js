@@ -1,5 +1,6 @@
 var datamaps
 var dropyear
+var newCountry
 window.onload = function() {
     var countries = "https://raw.githubusercontent.com/DavidNP96/project/master/code/countries.json"
     var data = "https://raw.githubusercontent.com/DavidNP96/project/master/data/data.json"
@@ -10,7 +11,6 @@ window.onload = function() {
     var countries = response[0]
     var data = response[1]
     datamap = data
-    // Set tooltips
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0},
                 width = 960 - margin.left - margin.right,
@@ -26,8 +26,8 @@ window.onload = function() {
      var dataTime = d3.range(0, 11).map(function(d) {
        return new Date(2003 + d, 10, 3);
      });
-     var year = 2013
-    dropyear = year
+     var year = 2003
+     dropyear = year
      map(countries, data, year, path);
 
      var sliderTime = d3
@@ -41,8 +41,12 @@ window.onload = function() {
        .default(new Date(2003, 10, 3))
        .on('onchange', val => {
          d3.select('p#value-time').text(d3.timeFormat('%Y')(val));
-         var year = d3.timeFormat('%Y')(sliderTime.value());
+         year = d3.timeFormat('%Y')(sliderTime.value());
+         dropyear = year;
+         console.log(year);
+         console.log(dropyear);
          map(countries, data, year, path);
+         updateDonut(data, year, country);
        });
 
      var gTime = d3
@@ -64,9 +68,12 @@ window.onload = function() {
 
 function map(countries, data, year, path) {
 
+var colorDomain = [0, 5,10,25,50,100,150];
+var colorRange = ["ffffff", "#ff6666", "#ff3333", "#ff0000","#b30000","#800000","#4d0000"];
+
 var color = d3.scaleThreshold()
-    .domain([5,10,25,50,100,150,200])
-    .range(["rgb(158,202,225)", "rgb(107,174,214)", "rgb(66,146,198)","rgb(33,113,181)","rgb(8,81,156)","rgb(8,48,107)","rgb(3,19,43)"]);
+    .domain(colorDomain)
+    .range(colorRange);
 
 data1 = data[year]
 
@@ -90,8 +97,11 @@ keys.forEach((key, i) => dataset[key] = values[i]);
 
   var tip = d3.tip()
               .attr('class', 'd3-tip')
-              .offset([-10, 0])
+              // .offset([100, 100])
               .html(function(d) {
+                if (dataset[d.properties.name] === undefined) {
+                  dataset[d.properties.name] = "no data"
+                }
                 return "<strong>Country: </strong><span class='details'>" + d.properties.name + "<br></span>" + "<strong>Meat consumption: </strong><span class='details'>" + dataset[d.properties.name]+"</span>";
               })
 
@@ -100,6 +110,7 @@ keys.forEach((key, i) => dataset[key] = values[i]);
   var counter = 0;
   svg.append("g")
       .attr("class", "countries")
+      .attr("transform", "translate(50, 0)")
     .selectAll("path")
       .data(countries.features)
     .enter().append("path")
@@ -108,49 +119,87 @@ keys.forEach((key, i) => dataset[key] = values[i]);
       .style('stroke', 'white')
       .style('stroke-width', 1.5)
       .style("opacity",0.8)
-      // tooltips
-        .style("stroke","white")
-        .style('stroke-width', 0.3)
-        .on('mouseover',function(d) {
-          tip.show(d);
-          d3.select(this)
-            .style("opacity", 1)
-            .style("stroke","white")
-            .style("stroke-width",3);
-        })
-        .on('mouseout', function(d) {
-          tip.hide(d);
-          d3.select(this)
-            .style("opacity", 0.8)
-            .style("stroke","white")
-            .style("stroke-width",0.3);
+      .style("stroke","white")
+      .style('stroke-width', 0.3)
+
+      .on('mouseover',function(d) {
+        tip.show(d);
+        d3.select(this)
+          .style("opacity", 1)
+          .style("stroke","white")
+          .style("stroke-width",3);
+      })
+      .on('mouseout', function(d) {
+        tip.hide(d);
+        d3.select(this)
+          .style("opacity", 0.8)
+          .style("stroke","white")
+          .style("stroke-width",0.3);
         })
         .on('click', function(d) {
-          var country = d.properties.name;
-          if (country === "USA") {
-            country = "United States of America"
+          country = d.properties.name;
+          newCountry = country
+          if ( dataset[d.properties.name] === "no data") {
+            {};
           }
-          if (d3.select(".line").empty()) {
+
+          else if (d3.select(".line").empty()) {
+
+            window.scrollTo(0,1500);
             createLine(data, country);
             createPie(data, year, country);
+
           }
           else {
+            window.scrollTo(0, 1500);
             updateLine(data, country);
             updateDonut(data, year, country);
           }
         });
 
   svg.call(tip);
+
+
+  var legends = svg.append("g")
+                  .attr("transform", "translate(0, 30)")
+                  .selectAll(".legend")
+                  .data(colorDomain);
+
+  // create eacht bar of legend
+  var legend = legends.enter()
+                      .append("g")
+                      .classed("legend", true)
+                      .attr("transform", function(d, i){return "translate(0," + (i + 1) * 30 + ")";
+                      });
+
+  //  give right color to eacht legend
+  legend.append("rect")
+        .attr("width", 20)
+        .attr("height", 20)
+        .style("fill", function(d, i) {
+            return colorRange[7 - i];
+          })
+
+  var legendText = ["No data", "100-150 kg", "50-100 kg", "25-50 kg", "10-25 kg", "5-10 kg" , "<5 kg"];
+
+  // append text to leend
+  legend.append("text")
+        .classed("label", true)
+        .text(function(d, i){return legendText[i]})
+        .attr("x", 20)
+        .attr("y", 12)
 }
 function createPie(data, year, country) {
 
     // determine colors
     svg = d3.selectAll("#donutchart")
-    var colors = d3.scaleOrdinal(d3.schemeSet1);
+    var colors = { 0 : "#b30000", 1 : "#ff6666", 2 : "#cca300"};
+
+    // d3.scaleOrdinal(d3.schemeSet1);
 
     // selects right data
-    data = data[year][country]
-    console.log(data);
+    data = data[year][country];
+
     // define tooltip
     var div = d3.select("body").append("div")
         .attr("class", "tooltip")
@@ -180,16 +229,16 @@ function createPie(data, year, country) {
       //  give color to eacht section of piechart
       sections.enter().append("path")
               .attr("d", segments)
-              .attr("fill", function(d){
-        return colors(d.value);
+              .attr("fill", function(d,i){ console.log(i);
+        return colors[i];
         })
         .on("mousemove",function(d){
 
+          country = newCountry
           div.transition()
               .duration(200)
               .style("opacity", .9)
-
-          div	.html("country: " + country + "<br/>" + "year: "+ year + "<br/>"  + "consumption: " + d.value)
+          div	.html("country: " + country + "<br/>" + "year: "+ dropyear + "<br/>"  + "consumption: " + d.value + " kg")
               .style("left", (d3.event.pageX +20) + "px")
               .style("top", (d3.event.pageY - 20) + "px");
          })
@@ -216,37 +265,46 @@ function createPie(data, year, country) {
     legend.append("rect")
           .attr("width", 20)
           .attr("height", 20)
-          .attr("fill", function(d){
-    return colors(d.value);
+          .attr("fill", function(d,i){
+    return colors[i];
     })
 
-    // append text to leend
+    var legendText = ["Beef", "Pig", "Poultry"];
+
+    // append text to legend
     legend.append("text")
           .classed("label", true)
-          // .text(function(d, i){return Object.})
+          .text(function(d, i){return legendText[i]})
           .attr("x", 20)
           .attr("y", 12)
 
     // create title for piechart
     svg.append("text")
-      .attr("x", 250)
+      .attr("x", 50)
       .attr("y", 20)
       .attr("font-family", "arial")
       .style("font-size", "20px")
-      .text("meatconsumption of country per animal")
+      .text("meatconsumption of country per animal (kg/capita)")
+
+    svg.append("text")
+      .attr("x", 50)
+      .attr("y", 40)
+      .attr("id", "country")
+      .attr("fontfamily", "arial")
+      .style("fontsize", "20px")
+      .text(country)
 }
 
 function updateDonut(data, year, country) {
 
-  var colors = d3.scaleOrdinal(d3.schemeSet1);
-
+  var colors = { 0 : "#b30000", 1 : "#ff6666", 2 : "#cca300"};
   // selects right data
   data = data[year][country];
   svg = d3.select("#donutchart");
 
-
   values = Object.values(data);
-  animals = Object.keys(data)
+  animals = Object.keys(data);
+
 
   var angles = d3.pie().sort(null)(values);
 
@@ -266,36 +324,44 @@ function updateDonut(data, year, country) {
           .attr("d", segments)
           .attr("fill", function(d){
     return colors(d.value)
-    })
+  })
 
     sections.exit().remove()
 
     sections.transition().duration(500)
     .attr("d", segments)
-    .attr("fill", function(d){
-    return colors(d.value)
+    .attr("fill", function(d,i){
+    return colors[i]
     })
+
+    svg.select("#country").remove()
+
+    svg.append("text")
+      .attr("x", 50)
+      .attr("y", 40)
+      .attr("id", "country")
+      .attr("fontfamily", "arial")
+      .style("fontsize", "20px")
+      .text(country)
+      .transition()
+      .duration(750)
 
 }
 
 function dropdown(country){
-  if (d3.select(".line").empty()) {
-    createLine(datamap, country);
-    createPie(datamap, dropyear, country);
+    if (d3.select(".line").empty()) {
+      createLine(datamap, country);
+      createPie(datamap, dropyear, country);
+    }
+    else {
+      updateLine(datamap, country);
+      updateDonut(datamap, dropyear, country);
+    }
   }
-  else {
-    updateLine(datamap, country);
-    updateDonut(datamap, dropyear, country);
-  }
-}
+
 function createLine(data, country) {
   var svg = d3.selectAll("#linegraph")
-  var tip = d3.tip()
-              .attr('class', 'd3-tip')
-              .offset([-10, 0])
-              .html(function(d) {
-                return "<strong>Country: </strong><span class='details'>" + year + "<br></span>" + "<strong>Meat consumption: </strong><span class='details'>" + "x" +"</span>";
-              })
+
   margin = {top: 20, right: 20, bottom: 30, left: 40},
   width = 500 - margin.left - margin.right,
   height = 500 - margin.top - margin.bottom;
@@ -303,6 +369,10 @@ function createLine(data, country) {
   var keys = Object.keys(data).map(Number)
   var values = []
   for (var i = 0; i < Object.values(data).length; i++) {
+    if ( typeof Object.values(data)[i][country] === "undefined"){
+      {};
+    }
+
     countryValues = Object.values(data)[i][country]
     countryValues = Object.values(countryValues).map(Number)
     countryValuesSum = countryValues.reduce(add, 0);
@@ -344,13 +414,21 @@ function createLine(data, country) {
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate("+ margin.left + "," + (height + margin.top)  + ")")
-        .call(d3.axisBottom(xScale)); // Create an axis component with d3.axisBottom
+        .call(d3.axisBottom(xScale).tickFormat(d3.format(""))); // Create an axis component with d3.axisBottom
 
     // 4. Call the y axis in a group tag
     svg.append("g")
         .attr("class", "y axis")
         .attr("transform", "translate("+ margin.left + "," + margin.top + ")")
-        .call(d3.axisLeft(yScale)); // Create an axis component with d3.axisLeft
+        .call(d3.axisLeft(yScale)) // Create an axis component with d3.axisLeft
+        .append("text")
+          .attr("class", "axis-title")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", ".71em")
+          .style("text-anchor", "end")
+          .attr("fill", "#5D6971")
+          .text("Meatconsumption (kg/capita)");
 
     // 9. Append the path, bind the data, and call the line generator
     svg.append("path")
@@ -358,7 +436,7 @@ function createLine(data, country) {
         .attr("class", "line") // Assign a class for styling
         .attr("transform", "translate("+ margin.left + ", 0 )")
         .attr("d", line) // 11. Calls the line generator
-        .style("fill",  "#CCD1CC")
+        .style("fill",  "none")
         .style("stroke", "black")
         .style("stroke-width", 1.5)
 
@@ -382,20 +460,29 @@ function createLine(data, country) {
     .domain([0, width - margin.right]) // input
     .range([2003, 2013]); // output
     var year = reverseScale(d3.select(this).attr("cx"));
+
     div.transition()
         .duration(200)
         .style("opacity", .9);
 
-    div	.html("year: "+ year + "<br/>"  + "consumption: " + dataset[year])
+    div	.html("year: "+ year + "<br/>"  + "consumption: " + dataset[year] + " kg")
         .style("left", (d3.event.pageX) + "px")
-        .style("top", (d3.event.pageY - 35) + "px");
+        .style("top", (d3.event.pageY -50) + "px");
     })
     .on("mouseout", function(d) {
     div.transition()
         .duration(500)
         .style("opacity", 0);
     })
-    .on("onclick")
+
+    // create title for piechart
+    svg.append("text")
+      .attr("x", 50)
+      .attr("y", 20)
+      .attr("font-family", "arial")
+      .style("font-size", "20px")
+      .text("meatconsumption of country per year kg/capita");
+
 }
 
 function updateLine(data, country) {
@@ -403,9 +490,10 @@ function updateLine(data, country) {
   margin = {top: 20, right: 20, bottom: 30, left: 40},
   width = 500 - margin.left - margin.right,
   height = 500 - margin.top - margin.bottom;
-
+try {
   var keys = Object.keys(data).map(Number)
   var values = []
+
   for (var i = 0; i < Object.values(data).length; i++) {
     countryValues = Object.values(data)[i][country]
     countryValues = Object.values(countryValues).map(Number)
@@ -420,7 +508,10 @@ function updateLine(data, country) {
   }
   var dataset = {};
   keys.forEach((key, i) => dataset[key] = values[i]);
-
+}
+catch(err){
+ alert("no data available for this country");
+}
   // 5. X scale will use the index of our data
   var xScale = d3.scaleLinear()
       .domain([2003, 2013]) // input
@@ -450,5 +541,7 @@ function updateLine(data, country) {
          .attr("cx", function(d, i) { return xScale(d)})
          .attr("cy", function(d) { return yScale(dataset[d]) })
          .attr("r", 5)
-         .attr("fill", "black")
+         .attr("fill", "black");
+
+
 }
