@@ -83,6 +83,10 @@ stroke-linejoin: round;
  body{
    background-color: #ffffb3;
  }
+
+ .fronttext{
+   font-size: 200%;
+ }
  /* .dropdown{
    left: 70% !important;
    right: auto !important;
