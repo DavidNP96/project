@@ -44,8 +44,15 @@ made dropdown button. perfected the tooltip on the donutchart.
 fixed some bugs with the linechart update and made donutchart updatefunction.
 
 #28-10-2019:
-today I fixed a bug with my tooltip and made my appear in a box. Also made a
-for my worldmap and piechart. Did some styling with changing the colors of my
-worldmap and my donutchart. ALso made an error handler for my dropdown since
+Today I fixed a bug with my tooltip and made my appear in a box. Also made a legend
+for my worldmap and piechart. I Did some styling with changing the colors of my
+worldmap and my donutchart. Also made an error handler for my dropdown since
 there are countries that do not carry any data. The slider now also updates the
 donutchart.
+
+#29-10-2019:
+Today I fixed my update function for my donutchart. Did some extra styling.
+
+#30-10-2019:
+Today I fixed last minute bugs i just saw, namely my tooltip didn't work when the donutchart was updated and my linechart was not
+accurate. I split my code and also wrote my README.md

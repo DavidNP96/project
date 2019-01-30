@@ -176,7 +176,7 @@ keys.forEach((key, i) => dataset[key] = values[i]);
   svg.call(tip);
 
   if (svg.select("#legend").empty()) {
-    console.log("jooo");
+
   }
 
   var legends = svg.append('g')
@@ -252,7 +252,7 @@ try{
       sections.enter()
         .append('path')
         .attr('d', segments)
-        .attr('fill', function(d,i){ console.log(i);
+        .attr('fill', function(d,i){
           return colors[i];
         })
         .on('mousemove',function(d){
@@ -347,6 +347,8 @@ function updateDonut(data, year, country) {
   var sections = svg.select(".pie").selectAll('path')
     .data(angles)
 
+  var div = d3.select(".tooltip")
+
   //  give color to eacht section of piechart
   sections.enter()
     .append('path')
@@ -355,6 +357,22 @@ function updateDonut(data, year, country) {
     .attr('fill', function(d, i) {
       return colors[i]
   })
+  .on('mousemove',function(d){
+
+    country = newCountry
+
+    div.transition()
+        .duration(200)
+        .style('opacity', .9)
+    div	.html('country: ' + country + '<br/>' + 'year: '+ dropyear + '<br/>'  + 'consumption: ' + d.value + ' kg')
+        .style('left', (d3.event.pageX +20) + 'px')
+        .style('top', (d3.event.pageY - 20) + 'px');
+   })
+   .on('mouseout', function(d) {
+     div.transition()
+         .duration(500)
+         .style('opacity', 0);
+   });
 
     sections.exit().remove()
 
@@ -389,6 +407,7 @@ function dropdown(country){
   }
 
 function createLine(data, country) {
+
   var svg = d3.selectAll('#linegraph')
 
   margin = {top: 20, right: 20, bottom: 30, left: 40},
@@ -418,6 +437,7 @@ function createLine(data, country) {
 
     var dataset = {};
 
+
     keys.forEach((key, i) => dataset[key] = values[i]);
 
     // The number of datapoints
@@ -433,8 +453,6 @@ function createLine(data, country) {
         .domain([0, 200]) // input
         .range([height, 0]); // output
 
-    for (var i = 0; i<11; i++) {
-    }
 
       // 7. d3's line generator
       var line = d3.line()
@@ -465,7 +483,7 @@ function createLine(data, country) {
       svg.append('path')
         .datum(Object.keys(dataset)) // 10. Binds data to the line
         .attr('class', 'line') // Assign a class for styling
-        .attr('transform', 'translate('+ margin.left + ', 0 )')
+        .attr('transform', 'translate('+ margin.left + ',' + margin.top + ')')
         .attr('d', line) // 11. Calls the line generator
         .style('fill',  'none')
         .style('stroke', 'black')
@@ -481,7 +499,7 @@ function createLine(data, country) {
         .data(Object.keys(dataset))
         .enter().append('circle') // Uses the enter().append() method
         .attr('class', 'dot') // Assign a class for styling
-        .attr('transform', 'translate('+ margin.left + ', 0 )')
+        .attr('transform', 'translate('+ margin.left + ',' + margin.top + ')')
         .attr('cx', function(d) { return xScale(d) })
         .attr('cy', function(d) { return yScale(dataset[d]); })
         .attr('r', 5)
@@ -535,6 +553,7 @@ function updateLine(data, country) {
 
   try {
     svg = d3.select('#linegraph');
+    var div = d3.select('body').select(".tooltip")
     svg.select('#land').remove()
     svg.append('text')
       .attr('x', 60)
@@ -561,6 +580,7 @@ function updateLine(data, country) {
     }
     var dataset = {};
     keys.forEach((key, i) => dataset[key] = values[i]);
+
 
     // 5. X scale will use the index of our data
     var xScale = d3.scaleLinear()
@@ -592,12 +612,31 @@ function updateLine(data, country) {
        .attr('cx', function(d, i) { return xScale(d)})
        .attr('cy', function(d) { return yScale(dataset[d]) })
        .attr('r', 5)
-       .attr('fill', 'black');
+       .attr('fill', 'black')
+
+       newDots.on('mouseover', function(d) {
+       var reverseScale = d3.scaleLinear()
+       .domain([0, width - margin.right]) // input
+       .range([2003, 2013]); // output
+       var year = reverseScale(d3.select(this).attr('cx'));
+
+       div.transition()
+           .duration(200)
+           .style('opacity', .9);
+
+       div  .html('year: '+ year + '<br/>'  + 'consumption: ' + dataset[year] + ' kg')
+           .style('left', (d3.event.pageX) + 'px')
+           .style('top', (d3.event.pageY -50) + 'px');
+       })
+       .on('mouseout', function(d) {
+       div.transition()
+           .duration(500)
+           .style('opacity', 0);
+       })
 
   }
   catch(err){
    alert('no data available for this country');
   }
-
 
 }
