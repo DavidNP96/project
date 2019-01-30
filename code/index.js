@@ -347,16 +347,13 @@ function updateDonut(data, year, country) {
   var sections = svg.select(".pie").selectAll('path')
     .data(angles)
 
-    console.log(angles);
-
-
   //  give color to eacht section of piechart
   sections.enter()
     .append('path')
     .merge(sections)
     .attr('d', segments)
-    .attr('fill', function(d, i){
-    return colors[i]
+    .attr('fill', function(d, i) {
+      return colors[i]
   })
 
     sections.exit().remove()
@@ -364,8 +361,8 @@ function updateDonut(data, year, country) {
     sections.transition()
       .duration(500)
       .attr('d', segments)
-      .attr('fill', function(d, i){
-    return colors[i]
+      .attr('fill', function(d, i) {
+        return colors[i]
     })
 
     svg.select('#country').remove()

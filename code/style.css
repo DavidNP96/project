@@ -81,12 +81,21 @@ stroke-linejoin: round;
  }
 
  body{
-   background-color: #ffffb3;
+   background-color: #ffffff;
  }
 
  .fronttext{
    font-size: 200%;
  }
+
+ .hero-image {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+  height: 2%;
+  /* background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; */
+  /* position: relative; */
+}
  /* .dropdown{
    left: 70% !important;
    right: auto !important;
