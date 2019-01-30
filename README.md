@@ -23,6 +23,7 @@ A worldmap, line chart and a donutchart.
 # Story
 The story page contains information about the impact of meatconsumption and the goal of this webpage and a link to the dataset used.
 
+![](https://github.com/DavidNP96/project/blob/master/doc/story.png)
 
 ## Worldmap
 The world map which contains a slider to change the year and a tooltip
