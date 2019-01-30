@@ -1,9 +1,6 @@
 # Author
 David Pantophlet
 
-#Link to website
-https://davidnp96.github.io/project/code/index.html
-
 # Product video
 
 # Summary
@@ -40,3 +37,19 @@ The donut chart is also created by clicking on a country. It shows the specific 
 Once it is created it is eather updated with the slider to select
 a different year of the same country or it is updated with the dropdown menue to show the data of a different counry
 it also contains a tooltip to see the values that each part contains.
+
+
+# Sources
+
+http://bl.ocks.org/micahstubbs/8e15870eb432a21f0bc4d3d527b2d14f Micah Stubbs
+
+https://bl.ocks.org/johnwalley/e1d256b81e51da68f7feb632a53c3518 Copyright 2017-2018 John Walley
+
+https://gist.github.com/asha23/6112572
+
+https://www.w3schools.com/bootstrap/bootstrap_dropdowns.aspCopyright 1999-2019 by Refsnes Data.
+
+https://www.w3schools.com/bootstrap/bootstrap_tabs_pills.aspCopyright 1999-2019 by Refsnes Data.
+
+#Site
+https://davidnp96.github.io/project/code/index.html
