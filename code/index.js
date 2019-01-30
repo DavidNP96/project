@@ -10,7 +10,7 @@ var newCountry
 window.onload = function() {
 
     // load in two datasets one for to create the world map and one dataset of meatconsumption
-    var countries = 'https://raw.githubusercontent.com/DavidNP96/project/master/code/countries.json'
+    var countries = 'https://raw.githubusercontent.com/DavidNP96/project/master/data/countries.json'
     var data = 'https://raw.githubusercontent.com/DavidNP96/project/master/data/data.json'
     var requests = [d3.json(countries), d3.json(data)]
     var format = d3.format(',');
