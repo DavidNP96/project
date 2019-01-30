@@ -23,7 +23,7 @@ A worldmap, line chart and a donutchart.
 The world map which contains a slider to change the year and a tooltip
 
 
-##line charse
+##line chart
 The line chart is created by clicking on a country. It shows a trend from 2003 till 2013
 of the meatconsumption(kg/capita) of the selcted country. Furhtermore, it can be updated by using the
 dropdown menue to show a trend of a different country. It also has a tooltip to show the date of the
