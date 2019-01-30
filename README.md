@@ -35,48 +35,4 @@ Once it is created it is eather updated with the slider to select
 a different year of the same country or it is updated with the dropdown menue to show the data of a different counry
 it also contains a tooltip to see the values that each part contains.
 
-Data Information
-The information tab contains information about the data sets used. It also contains additional contact information in the footer.
-Link to data sets
-WHO suicide statistics
-Transformations: removed outliers and removed countries with no data
-US suicidal thoughts
-US depression statistics
-External components used
-d3 version (5.7.0)
-bootstrap
-Copyrights
-Copyright (c) 2019 Ruchella Kock
-I do not own any rights to the data sets.
-Sources
-Blocks
-US map blocks Copyright 2010-2017 Mike Bostock
-World Map v4 Micah Stubbs
-Zoomable sunburst with labels Copyright (c) 2017 Vasco Asturiano
-Slider Copyright 2017-2018 John Walley
-D3Copyright 2019 Mike Bostock
-Bootstrap
-Dropdown Copyright 1999-2019 by Refsnes Data.
-Cards Copyright 1999-2019 by Refsnes Data.
-Bootstrap Navbar Copyright 1999-2019 by Refsnes Data.
-Carousel Copyright 1999-2019 by Refsnes Data.
-Bootstrap footer © 2019 Copyright: MDBootstrap.com
-Bootstrap Copyright (c) 2011-2018 Twitter, Inc./ Copyright 2011-2018 The Bootstrap Authors
-Bootstrap Copyright 2011-2018 The Bootstrap Authors
-cloudflare Copyright (C) Federico Zivolo 2018
-jQuery(c) JS Foundation and other contributors
-Images
-Card Images © 2018 Icons8 LLC.
-Carousel Images
-University of Amsterdam Logo Copyright UvA 2019
-WHO Logo © 2019 WHO
-SAMHSA Logo © 2019 American Academy of Addiction Psychiatry.
-Github dataprocessing
-Bar chart
-Linked View assignment
-Other
-Flare
-Color brewer © Cynthia Brewer, Mark Harrower and The Pennsylvania State University
-Legend © 2018 - 2019 Copyrights Visual Cinnamon
-Topojson Copyright 2016 Mike Bostock.
-Stack Overflow
+
