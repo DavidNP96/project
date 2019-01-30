@@ -1,38 +1,52 @@
+// name: David Pantophlet
+// student number: 12466638
+// This is where all my code starts running when loaded
+
+// create global global variable
 var datamaps
 var dropyear
 var newCountry
+
 window.onload = function() {
+
+    // load in two datasets one for to create the world map and one dataset of meatconsumption
     var countries = 'https://raw.githubusercontent.com/DavidNP96/project/master/code/countries.json'
     var data = 'https://raw.githubusercontent.com/DavidNP96/project/master/data/data.json'
     var requests = [d3.json(countries), d3.json(data)]
     var format = d3.format(',');
 
   Promise.all(requests).then(function(response) {
+
     var countries = response[0]
     var data = response[1]
     datamap = data
 
+    // create margins
     var margin = {top: 0, right: 0, bottom: 0, left: 0},
                 width = 960 - margin.left - margin.right,
                 height = 500 - margin.top - margin.bottom;
 
+    // create projections for dworldmap
     var projection = d3.geoMercator()
       .scale(130)
       .translate( [width / 2, height / 1.5]);
 
+    // create path varibale for worldmap
     var path = d3.geoPath().projection(projection);
 
 
-    // Time
-     var dataTime = d3.range(0, 11).map(function(d) {
-       return new Date(2003 + d, 10, 3);
-     });
-
+     // initialize year to create worldmap
      var year = 2003
-
      dropyear = year
 
+     // create worldmaps
      map(countries, data, year, path);
+
+
+     // create slider over time
+      var dataTime = d3.range(0, 11).map(function(d) {
+        return new Date(2003 + d, 10, 3);
+      });
 
      var sliderTime = d3
        .sliderBottom()

@@ -1,5 +1,10 @@
+// name: David Pantophlet
+// student number: 12466638
+// This Code creates the interactive worldmap
+
 function map(countries, data, year, path) {
 
+//  create colordomain for wolrdmap values
 var colorDomain = [0, 5, 10, 25, 50, 100, 150];
 var colorRange = ['ffffff', '#ff6666', '#ff3333', '#ff0000', '#b30000', '#800000', '#4d0000'];
 
@@ -7,12 +12,14 @@ var color = d3.scaleThreshold()
   .domain(colorDomain)
   .range(colorRange);
 
+// reformat data
 data1 = data[year]
 
 var keys = Object.keys(data1)
 
 var values = []
 
+// reformat data output dataset
 for (var i = 0; i < Object.values(data1).length; i++) {
 
   countryValues = Object.values(data1);
@@ -34,6 +41,7 @@ var dataset = {};
 
 keys.forEach((key, i) => dataset[key] = values[i]);
 
+  // create tooltip
   var tip = d3.tip()
     .attr('class', 'd3-tip')
     // .offset([100, 100])
@@ -44,10 +52,12 @@ keys.forEach((key, i) => dataset[key] = values[i]);
       return "<strong>Country: </strong><span class='details'>" + d.properties.name + '<br></span>' + "<strong>Meat consumption: </strong><span class='details'>" + dataset[d.properties.name]+'</span>';
     })
 
+  // select right svg
   var svg = d3.select('#worldmap');
 
   var counter = 0;
 
+  // draw map with tooltip and right colors
   svg.append('g')
     .attr('class', 'countries')
     .attr('transform', 'translate(50, 0)')

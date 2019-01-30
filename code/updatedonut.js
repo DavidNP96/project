@@ -1,14 +1,21 @@
+// name: David Pantophlet
+// student number: 12466638
+// This code updates the donutchart
+
 function updateDonut(data, year, country) {
 
+  // Define the colors
   var colors = { 0 : '#b30000', 1 : '#ff6666', 2 : '#cca300'};
+
   // selects right data
   data = data[year][country];
   svg = d3.select('#donutchart');
 
+  // create data lists
   values = Object.values(data);
   animals = Object.keys(data);
 
-
+  // create data for donutchart
   var angles = d3.pie()
     .sort(null)(values);
 
@@ -24,7 +31,7 @@ function updateDonut(data, year, country) {
 
   var div = d3.select(".tooltip")
 
-  //  give color to eacht section of piechart
+  //  give color to eacht section of piechart and create tooltip
   sections.enter()
     .append('path')
     .merge(sections)
@@ -49,6 +56,7 @@ function updateDonut(data, year, country) {
          .style('opacity', 0);
    });
 
+    // update donut
     sections.exit().remove()
 
     sections.transition()
@@ -58,6 +66,7 @@ function updateDonut(data, year, country) {
         return colors[i]
     })
 
+    // update country text
     svg.select('#country').remove()
 
     svg.append('text')
@@ -69,14 +78,3 @@ function updateDonut(data, year, country) {
       .text(country)
 
 }
-
-function dropdown(country){
-    if (d3.select('.line').empty()) {
-      createLine(datamap, country);
-      createPie(datamap, dropyear, country);
-    }
-    else {
-      updateLine(datamap, country);
-      updateDonut(datamap, dropyear, country);
-    }
-  }

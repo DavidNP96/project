@@ -1,13 +1,20 @@
+// name: David Pantophlet
+// student number: 12466638
+// This code creates a interactive linechart
+
 function createLine(data, country) {
 
+  // Select right svg
   var svg = d3.selectAll('#linegraph')
 
+  // Create margins
   margin = {top: 20, right: 20, bottom: 30, left: 40},
   width = 500 - margin.left - margin.right,
   height = 500 - margin.top - margin.bottom;
 
   try{
 
+    //  Reformat data output dataset
     var keys = Object.keys(data).map(Number)
     var values = []
     for (var i = 0; i < Object.values(data).length; i++) {
@@ -35,33 +42,33 @@ function createLine(data, country) {
     // The number of datapoints
     var n = 11;
 
-    // 5. X scale will use the index of our data
+    // Create x scale
     var xScale = d3.scaleLinear()
         .domain([2003, 2013]) // input
         .range([0, width - margin.right]); // output
 
-    // 6. Y scale will use the randomly generate number
+    // Create y scale
     var yScale = d3.scaleLinear()
         .domain([0, 200]) // input
         .range([height, 0]); // output
 
 
-      // 7. d3's line generator
+      // Set x and y values for line generator
       var line = d3.line()
-        .x(function(d) { return xScale(d); }) // set the x values for the line generator
-        .y(function(d) { return yScale(dataset[d]);}) // set the y values for the line generator
+        .x(function(d) { return xScale(d); })
+        .y(function(d) { return yScale(dataset[d]);})
 
-        // 3. Call the x axis in a group tag
+      // Call the x axis in a group tag
       svg.append('g')
         .attr('class', 'x axis')
         .attr('transform', 'translate('+ margin.left + ',' + (height + margin.top)  + ')')
         .call(d3.axisBottom(xScale).tickFormat(d3.format(''))); // Create an axis component with d3.axisBottom
 
-      // 4. Call the y axis in a group tag
+      // Call the y axis in a group tag
       svg.append('g')
         .attr('class', 'y axis')
         .attr('transform', 'translate('+ margin.left + ',' + margin.top + ')')
-        .call(d3.axisLeft(yScale)) // Create an axis component with d3.axisLeft
+        .call(d3.axisLeft(yScale))
         .append('text')
         .attr('class', 'axis-title')
         .attr('transform', 'rotate(-90)')
@@ -71,26 +78,27 @@ function createLine(data, country) {
         .attr('fill', '#5D6971')
         .text('Meatconsumption (kg/capita)');
 
-      // 9. Append the path, bind the data, and call the line generator
+      // Append the path, bind the data, and call the line generator
       svg.append('path')
-        .datum(Object.keys(dataset)) // 10. Binds data to the line
-        .attr('class', 'line') // Assign a class for styling
+        .datum(Object.keys(dataset))
+        .attr('class', 'line')
         .attr('transform', 'translate('+ margin.left + ',' + margin.top + ')')
-        .attr('d', line) // 11. Calls the line generator
+        .attr('d', line)
         .style('fill',  'none')
         .style('stroke', 'black')
         .style('stroke-width', 1.5)
 
-          // Define the div for the tooltip
+      // define the div for the tooltip
       var div = d3.select('body').append('div')
         .attr('class', 'tooltip')
         .style('opacity', 0);
 
 
+      // Create dot with tooltip
       svg.selectAll('.dot')
         .data(Object.keys(dataset))
-        .enter().append('circle') // Uses the enter().append() method
-        .attr('class', 'dot') // Assign a class for styling
+        .enter().append('circle')
+        .attr('class', 'dot')
         .attr('transform', 'translate('+ margin.left + ',' + margin.top + ')')
         .attr('cx', function(d) { return xScale(d) })
         .attr('cy', function(d) { return yScale(dataset[d]); })

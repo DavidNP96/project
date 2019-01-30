@@ -1,3 +1,7 @@
+// name: David Pantophlet
+// student number: 12466638
+// This code creates interactive donutchart
+
 function createPie(data, year, country) {
 
     // determine colors
@@ -97,6 +101,7 @@ try{
       .style('font-size', '20px')
       .text('meatconsumption of country per animal (kg/capita)')
 
+    //  create country text
     svg.append('text')
       .attr('x', 50)
       .attr('y', 40)

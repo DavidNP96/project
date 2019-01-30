@@ -1,12 +1,23 @@
+// name: David Pantophlet
+// student number: 12466638
+// This code makes updates the linechart
+
 function updateLine(data, country) {
 
+  //  create margins
   margin = {top: 20, right: 20, bottom: 30, left: 40},
   width = 500 - margin.left - margin.right,
   height = 500 - margin.top - margin.bottom;
 
   try {
+
+    // select right svg
     svg = d3.select('#linegraph');
+
+    // select tooltip
     var div = d3.select('body').select(".tooltip")
+
+    // update country name thats being printed
     svg.select('#land').remove()
     svg.append('text')
       .attr('x', 60)
@@ -16,6 +27,7 @@ function updateLine(data, country) {
       .style('fontsize', '20px')
       .text(country)
 
+    // reformat data for linechart (output dataset)
     var keys = Object.keys(data).map(Number)
     var values = []
 
@@ -35,21 +47,21 @@ function updateLine(data, country) {
     keys.forEach((key, i) => dataset[key] = values[i]);
 
 
-    // 5. X scale will use the index of our data
+    // 5. Xcreate x and y scales
     var xScale = d3.scaleLinear()
-      .domain([2003, 2013]) // input
-      .range([0, width - margin.right]); // output
+      .domain([2003, 2013])
+      .range([0, width - margin.right]);
 
-    // 6. Y scale will use the randomly generate number
     var yScale = d3.scaleLinear()
-      .domain([0, 200]) // input
-      .range([height, 0]); // output
+      .domain([0, 200])
+      .range([height, 0]);
 
+    // set the x and y values for line generator
     var line = d3.line()
-      .x(function(d) { return xScale(d); }) // set the x values for the line generator
-      .y(function(d) { return yScale(dataset[d]); }) // set the y values for the line generator
+      .x(function(d) { return xScale(d); })
+      .y(function(d) { return yScale(dataset[d]); })
 
-
+    // update old line
     var newLine = d3.select('.line').datum(Object.keys(dataset));
     newLine.transition()
       .duration(500)
@@ -57,6 +69,7 @@ function updateLine(data, country) {
       .style('fill', 'none')
       .style('stroke', 'black');
 
+    //  update new dots
     var newDots = d3.selectAll('.dot').data(Object.keys(dataset));
 
     newDots.transition()
