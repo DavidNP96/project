@@ -63,9 +63,6 @@ Also donut.js is called when a country is selected. In donut.js there is a funct
 
 In update donut I again use a transition rather than throwing away the whole svg, but to make the transition work bugfree I used merge(), which resulted in the a static transition. Again only the necessary components are getting an update, which include the piechart pieces the tooltip and the selected country name shown underneath the title.
 
-## schets
-![schets](https://user-images.githubusercontent.com/44022245/50835750-d5b4f700-1357-11e9-8a50-e26aa1988447.png)
-
 ## plugins
 d3 tooltip
 
@@ -82,5 +79,10 @@ Also, the updateDonut() function was struggle, because some elements are deleted
 In retrosopect I can conlude that the biggest challenge for me was to take the time ro read and understand code and documentation. If I did this I might would've been quicker to search for a different example for my line chart and got my update functions done with more ease and better results. because I wanted to go to quick in the beginning I needed to fix a lot of things later on which was time I could've spend on the looks of my site and my code. Nevertheless I learned a lot not only in programming but also personally and within this project, My endresult is decend and I'm curious to what I could make if I would make a site right now.
 
 ## Decisions
+
+### Initial draw
+This is my initial draw, as you can see it is wuite similar to what is being made later.
+![schets](https://user-images.githubusercontent.com/44022245/50835750-d5b4f700-1357-11e9-8a50-e26aa1988447.png)
+
 
 In comparison to my earliest ideas for my site I stayed on track. I made no drastic alternating decisions considering my visualisation or my initial plan. I simply made what I said I was going to make. Because my initial idea only includes my design for my visualisation I can't really compare earlier ideas for the other interfaces. THe slight addition I made was that my initial idea included a slider or a dropdown for the years. I chose the slider to navigate through the years and added a dropdown menue for countries. The slider is usefull for the years because it makes the page more dynamic. The dropdown makes for an easier selection of countries If people don't know where asepcific country is located exactly. I'm happy with the visualisations and that it works but in an ideal world I would have done some things different. At this moment my website works with tabs and not with a navbar. In the beginning this looked really good, but in retrospect I'd rather have worked with a navbar, because this enables you to render whole new html pages with which you can switch up your design. The tabs make my website quite static. Also I started writing all my code in one file eventhough in python I didn't do this, because working with the new language I wanted to play it safe. But in the end I had one ver messy code which I didn't find the time for to clean up. So I had to do this all, very quickly, in the end. This is something I won't be doing anymore in future work. Finally I would have liked to use more years so you could really see how the consumption has changed over the years but for a first timer I'm very gratefull for the thing I have learned building this site which includes getting more comfortable with javascript working with bootstrap and knowing where to find designs and functions you want to implement.
