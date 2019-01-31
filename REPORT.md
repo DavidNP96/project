@@ -1,7 +1,7 @@
 # Final Report
 
 ## Student
-Name: David Pantophlet
+Name: David Pantophlet /n
 student Number: 12466638
 
 ## Short description
