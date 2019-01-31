@@ -10,6 +10,7 @@ The website contains a home page, linked visualisations, and a information page.
 Its purpose is to show how much meat is consumed by globally and thereby to create
 consiousness about our meat consumption.
 to get a feel of how the site looks there's an image of the visualizations below.
+![](https://github.com/DavidNP96/project/blob/master/doc/visualisation1.png)
 
 #### data
 The data for the worlmap I load in directly from the url. The dataset I used for the values of meatconsumption I first convert form a csv file to a json file with datatojson.py. I do this in python because, especially starting this project I was most comfortable in python.s
