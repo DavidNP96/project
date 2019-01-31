@@ -21,7 +21,7 @@ tooltip to click on country
 dropdown or slider to scroll through years and render new worldmap
 
 ## linechart
-by clicking on counntry the value country will be returned with which is linked to data in the json file. with this i'll be able to render a linechart which shows the trend in animal consumption.
+by clicking on a country the value country will be returned with which is linked to data in the json file. with this i'll be able to render a linechart which shows the trend in animal consumption.
 
 ## piechart
 

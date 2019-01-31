@@ -4,8 +4,6 @@ Describe your solution in full detail.
 In order for people to really grasp the size and impact of this industry. I first want to explaint to the audience why they should think about this
 industry. so maybe shock them with a video of the farming process or with a visualization of how much co2 the farming industry produces. then give them options to look at other stats like amount of animals that ge slaughtered and health stats.
 
-Summarize your idea in a single sentence, connecting it to the “gap” that you describe.
-
 In short I want to create consioussness about the impact of the meat industry.
 
 Include a visual sketch of what the final product will look like for the user; if you envision the application to have multiple screens, sketch these all out separately. Clearly specify the possible user interactions, and include concrete examples of data. Your sketches do not have to be professional-looking, but they have to be complete and neat!

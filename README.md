@@ -4,7 +4,8 @@ David Pantophlet
 # Product video
 
 # Summary
-This website contains a home page, linked visualisations, and a information page. Its purpose is to show how much meat is consumed by globally and thereby to create consiousness about our meat consumption.
+This website contains a home page, linked visualisations, and a information page.
+Its purpose is to show how much meat is consumed by globally and thereby to create consiousness about our meat consumption.
 
 # Home page
 On the homepage you'll find a short intro into the subject of meat consumption and related topics that are influenced by meat consumption.
